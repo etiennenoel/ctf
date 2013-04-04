@@ -25,6 +25,10 @@ class PlaceholderCommander(Commander):
         """Use this function to setup your bot before the game starts."""
         self.verbose = True    # display the command descriptions next to the bot labels
         
+        #Liste de buts
+        self.BotGoal = [GoalKillAnyone(self.game), GoalKillSpecificDefender(self.game), GoalKillFlagCarrier(self.game), GoalGetEnemyFlag(self.game)]
+
+        #Cherche les bonnes cases pour camper
         self.hidingSpot = []
         self.findHidingSpot()
                 
@@ -106,6 +110,16 @@ class PlaceholderCommander(Commander):
             else:
                 # otherwise run to where the flag is
                 enemyFlag = self.game.enemyTeam.flag.position
+
+                # calcule l'utilite maximale
+                maxUtility = -1
+                doGoal = Goal(self.game)
+                for goal in self.BotGoal:
+                    utility = goal.calculateUtility
+                    if maxUtility < goal.calculateUtility():
+                        maxUtility = utility
+                        doGoal = goal
+
                 self.issue(commands.Charge, bot, enemyFlag, description = 'Run to enemy flag')
 
     def shutdown(self):
@@ -123,16 +137,17 @@ class Goal:
     ## Function   : initialize
     ## Description: Methode pour initialiser le but 
     ## Parametres : self
+    ##              gameInfo: informations sur la partie
     ##################################################################################    
-    def __init__(self):
-        pass
+    def __init__(self, gameInfo):
+        self.gameInfo = gameInfo
 
     ##################################################################################
     ## Function   : calculteUtility
     ## Description: Methode permettant de calculer l'utilite du but
     ## Parametres : self
     ##################################################################################   
-    def calculteUtility(self):
+    def calculateUtility(self):
         abstract
 
 ##################################################################################
@@ -144,9 +159,10 @@ class GoalKillAnyone (Goal):
     ## Function   : initialize
     ## Description: Methode pour initialiser le but 
     ## Parametres : self
+    ##              gameInfo: informations sur la partie
     ##################################################################################
-    def __init__(self):
-        pass
+    def __init__(self, gameInfo):
+        Goal.__init__(self, gameInfo)
 
     ##################################################################################
     ## Function   : calculteUtility
@@ -154,7 +170,7 @@ class GoalKillAnyone (Goal):
     ## Parametres : self
     ##################################################################################   
     def calculateUtility(self):
-        pass
+        return 0
 
 ##################################################################################
 ## Class   : GoalKillSpecificDefender
@@ -165,9 +181,10 @@ class GoalKillSpecificDefender (Goal):
     ## Function   : initialize
     ## Description: Methode pour initialiser le but 
     ## Parametres : self
+    ##              gameInfo: informations sur la partie
     ##################################################################################
-    def __init__(self):
-        pass
+    def __init__(self, gameInfo):
+        Goal.__init__(self, gameInfo)
 
     ##################################################################################
     ## Function   : calculteUtility
@@ -175,7 +192,7 @@ class GoalKillSpecificDefender (Goal):
     ## Parametres : self
     ##################################################################################   
     def calculateUtility(self):
-        pass
+        return 0
 
 ##################################################################################
 ## Class   : GoalKillFlagCarrier
@@ -186,9 +203,10 @@ class GoalKillFlagCarrier (Goal):
     ## Function   : initialize
     ## Description: Methode pour initialiser le but 
     ## Parametres : self
+    ##              gameInfo: informations sur la partie
     ##################################################################################
-    def __init__(self):
-        pass
+    def __init__(self, gameInfo):
+        Goal.__init__(self, gameInfo)
 
     ##################################################################################
     ## Function   : calculteUtility
@@ -196,4 +214,26 @@ class GoalKillFlagCarrier (Goal):
     ## Parametres : self
     ##################################################################################   
     def calculateUtility(self):
-        pass
+        return 0
+
+##################################################################################
+## Class   : GoalGetEnemyFlag
+## Description: Classe representant le but: Aller chercher leur flag
+##################################################################################   
+class GoalGetEnemyFlag (Goal):
+    ##################################################################################
+    ## Function   : initialize
+    ## Description: Methode pour initialiser le but 
+    ## Parametres : self
+    ##              gameInfo: informations sur la partie
+    ##################################################################################
+    def __init__(self, gameInfo):
+        Goal.__init__(self, gameInfo)
+
+    ##################################################################################
+    ## Function   : calculteUtility
+    ## Description: Methode permettant de calculer l'utilite du but d'aller chercher leur flag
+    ## Parametres : self
+    ##################################################################################   
+    def calculateUtility(self):
+        return 1
