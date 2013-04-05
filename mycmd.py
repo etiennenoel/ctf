@@ -10,11 +10,9 @@ from api import commands
 # effectively be considered 2D.
 from api import Vector2
 
+from goals.GoalPlanner import GoalPlanner
 from goals.Goal import Goal
-from goals.GoalGetEnemyFlag import GoalGetEnemyFlag
-from goals.GoalKillAnyone import GoalKillAnyone
-from goals.GoalKillFlagCarrier import GoalKillFlagCarrier
-from goals.GoalKillSpecificDefender import GoalKillSpecificDefender
+
 
 class PlaceholderCommander(Commander):
     """
@@ -32,7 +30,7 @@ class PlaceholderCommander(Commander):
         self.verbose = True    # display the command descriptions next to the bot labels
         
         #Liste de buts
-        self.BotGoal = [GoalKillAnyone(self.game), GoalKillSpecificDefender(self.game), GoalKillFlagCarrier(self.game), GoalGetEnemyFlag(self.game)]
+        self.goalPlanner = GoalPlanner(self.game)
 
         #Cherche les bonnes cases pour camper
         self.hidingSpot = []
@@ -100,8 +98,6 @@ class PlaceholderCommander(Commander):
 
             # On veut la prochaine ligne
             x+=1
-                
-                
 
     def tick(self):
         """Override this function for your own bots.  Here you can access all the information in self.game,
@@ -116,16 +112,7 @@ class PlaceholderCommander(Commander):
             else:
                 # otherwise run to where the flag is
                 enemyFlag = self.game.enemyTeam.flag.position
-
-                # calcule l'utilite maximale
-                maxUtility = -1
-                doGoal = Goal(self.game)
-                for goal in self.BotGoal:
-                    utility = goal.calculateUtility()
-                    if maxUtility < goal.calculateUtility():
-                        maxUtility = utility
-                        doGoal = goal
-
+                goal = self.goalPlanner.findMostRevelantGoal()
                 self.issue(commands.Charge, bot, enemyFlag, description = 'Run to enemy flag')
 
     def shutdown(self):
