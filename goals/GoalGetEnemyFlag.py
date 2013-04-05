@@ -11,6 +11,7 @@ class GoalGetEnemyFlag(Goal):
     ##################################################################################
     def __init__(self, gameInfo):
         Goal.__init__(self, gameInfo)
+        self.goalString = "GetEnemyFlag"
 
     ##################################################################################
     ## Function   : calculteUtility

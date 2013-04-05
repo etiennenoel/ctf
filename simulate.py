@@ -18,7 +18,7 @@ from game.application import CaptureTheFlag
 
 
 # By default load these commanders.
-defaults = ['examples.BalancedCommander', 'mycmd.PlaceholderCommander']
+defaults = ['examples.BalancedCommander', 'mycmd.ReploidCommander']
 
 # Possible levels that can be used.
 #levels = ['map00', 'map01', 'map02', 'map03', 'map10', 'map11', 'map12', 'map13',

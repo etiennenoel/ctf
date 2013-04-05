@@ -12,6 +12,7 @@ class GoalKillFlagCarrier(Goal):
     ##################################################################################
     def __init__(self, gameInfo):
         Goal.__init__(self, gameInfo)
+        self.goalString = "KillFlagCarrier"
 
     ##################################################################################
     ## Function   : calculteUtility

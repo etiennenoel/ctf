@@ -14,7 +14,7 @@ from goals.GoalPlanner import GoalPlanner
 from goals.Goal import Goal
 
 
-class PlaceholderCommander(Commander):
+class ReploidCommander(Commander):
     """
     Rename and modify this class to create your own commander and add mycmd.Placeholder
     to the execution command you use to run the competition.

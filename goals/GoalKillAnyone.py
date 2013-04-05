@@ -12,6 +12,7 @@ class GoalKillAnyone(Goal):
     ##################################################################################
     def __init__(self, gameInfo):
         Goal.__init__(self, gameInfo)
+        self.goalString = "KillAnyone"
 
     ##################################################################################
     ## Function   : calculteUtility
