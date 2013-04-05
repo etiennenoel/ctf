@@ -10,6 +10,12 @@ from api import commands
 # effectively be considered 2D.
 from api import Vector2
 
+from goals.Goal import Goal
+from goals.GoalGetEnemyFlag import GoalGetEnemyFlag
+from goals.GoalKillAnyone import GoalKillAnyone
+from goals.GoalKillFlagCarrier import GoalKillFlagCarrier
+from goals.GoalKillSpecificDefender import GoalKillSpecificDefender
+
 class PlaceholderCommander(Commander):
     """
     Rename and modify this class to create your own commander and add mycmd.Placeholder
@@ -87,7 +93,7 @@ class PlaceholderCommander(Commander):
                     # On considere que c'est une bonne cachette s'il y a au moins deux murs
                     if numberOfAdjacentWall > 1:
                         self.hidingSpot.append((y,x))
-                        self.log.info((x,y))
+                        #self.log.info((x,y))
                 
                 # On veut la position de la prochaine case en x
                 y += 1
@@ -115,7 +121,7 @@ class PlaceholderCommander(Commander):
                 maxUtility = -1
                 doGoal = Goal(self.game)
                 for goal in self.BotGoal:
-                    utility = goal.calculateUtility
+                    utility = goal.calculateUtility()
                     if maxUtility < goal.calculateUtility():
                         maxUtility = utility
                         doGoal = goal
@@ -128,112 +134,3 @@ class PlaceholderCommander(Commander):
 
         pass
 
-##################################################################################
-## Class   : Goal
-## Description: Classe abstraite representant les buts
-##################################################################################   
-class Goal:
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################    
-    def __init__(self, gameInfo):
-        self.gameInfo = gameInfo
-
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
-        abstract
-
-##################################################################################
-## Class   : GoalKillAnyone
-## Description: Classe representant le but: Tuer un mechant - Un ennemi arbitraire
-##################################################################################   
-class GoalKillAnyone (Goal):
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
-    def __init__(self, gameInfo):
-        Goal.__init__(self, gameInfo)
-
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but de tuer le flag carrier
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
-        return 0
-
-##################################################################################
-## Class   : GoalKillSpecificDefender
-## Description: Classe representant le but: Tuer un mechant - Un defenseur renomme
-##################################################################################   
-class GoalKillSpecificDefender (Goal):
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
-    def __init__(self, gameInfo):
-        Goal.__init__(self, gameInfo)
-
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but de tuer un defenseur precis
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
-        return 0
-
-##################################################################################
-## Class   : GoalKillFlagCarrier
-## Description: Classe representant le but: Tuer un mechant - Leur flag carrier
-##################################################################################   
-class GoalKillFlagCarrier (Goal):
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
-    def __init__(self, gameInfo):
-        Goal.__init__(self, gameInfo)
-
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but de tuer le flag carrier
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
-        return 0
-
-##################################################################################
-## Class   : GoalGetEnemyFlag
-## Description: Classe representant le but: Aller chercher leur flag
-##################################################################################   
-class GoalGetEnemyFlag (Goal):
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
-    def __init__(self, gameInfo):
-        Goal.__init__(self, gameInfo)
-
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but d'aller chercher leur flag
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
-        return 1
