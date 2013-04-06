@@ -12,6 +12,7 @@ class PlanPlanner(object):
 
     def choosePlan(self, goal):
         plan = copy.deepcopy(self.planAvailable[0])
+        plan.setSequence()
         return plan
 
     def addPlan(self, goal, actionSequence):

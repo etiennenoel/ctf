@@ -3,11 +3,13 @@
 class Plan:
     """Classe abstraite représentant une séquence d'action: un plan"""
 
-    def __init__(self, goalString):
+    def __init__(self, goalString, gameInfo):
         self.assignGoal = goalString
         self.value = 0.5;
         self.actionSequence = []
         self.currentActionIndex = 0
+        self.target = ""
+        self.gameInfo = gameInfo
 
     def executePlan(self):
         action = self.actionSequence[self.currentActionIndex]
@@ -20,3 +22,6 @@ class Plan:
         else:
             self.currentActionIndex = 0
             return False
+
+    def setSequence(self):
+        abstract

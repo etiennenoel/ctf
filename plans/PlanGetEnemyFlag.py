@@ -7,6 +7,7 @@ class PlanGetEnemyFlag(Plan):
     """Des plans possibles pour atteindre le but d'aller chercher le flag"""
 
     def __init__(self, gameInfo):
-        Plan.__init__(self, "GetEnemyFlag")
-        self.actionSequence = [ActionCharge(gameInfo.enemyTeam.flag.position)]
-
+        Plan.__init__(self, "GetEnemyFlag", gameInfo)
+        
+    def setSequence(self):
+        self.actionSequence = [ActionCharge(self.gameInfo.enemyTeam.flag.position)]

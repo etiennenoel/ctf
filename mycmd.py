@@ -128,9 +128,11 @@ class ReploidCommander(Commander):
                     self.botsPlan[bot] = plan
                 else:
                     plan = self.botsPlan[bot]
+                    self.log.info("Plan: " + plan.assignGoal)
 
                 # On execute l'action
                 action = plan.executePlan()
+                self.log.info(str(action.command) + " " + str(action.target))
                 self.issue(action.command, bot, action.target, action.description);
 
                 self.log.info(self.game.enemyTeam.flag.position)
