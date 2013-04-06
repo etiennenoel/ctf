@@ -13,6 +13,8 @@ from api import Vector2
 from goals.GoalPlanner import GoalPlanner
 from goals.Goal import Goal
 
+from plans.PlanPlanner import PlanPlanner
+
 
 class ReploidCommander(Commander):
     """
@@ -29,8 +31,12 @@ class ReploidCommander(Commander):
         """Use this function to setup your bot before the game starts."""
         self.verbose = True    # display the command descriptions next to the bot labels
         
-        #Liste de buts
+        #Planner
         self.goalPlanner = GoalPlanner(self.game)
+        self.planPlanner = PlanPlanner(self.game)
+
+        #Dictionnaire liant un bot a son plan
+        self.botsPlan = {}
 
         #Cherche les bonnes cases pour camper
         self.hidingSpot = []
@@ -110,10 +116,23 @@ class ReploidCommander(Commander):
                 flagScoreLocation = self.game.team.flagScoreLocation
                 self.issue(commands.Charge, bot, flagScoreLocation, description = 'Run to my flag')
             else:
-                # otherwise run to where the flag is
-                enemyFlag = self.game.enemyTeam.flag.position
-                goal = self.goalPlanner.findMostRevelantGoal()
-                self.issue(commands.Charge, bot, enemyFlag, description = 'Run to enemy flag')
+                # Plan a executer
+                plan = ""
+
+                # Si on a pas de plan, on en cherche un nouveau
+                if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isValidPlan()):
+                    self.log.info("Cherche un plan")
+                    goal = self.goalPlanner.findMostRevelantGoal()
+                    plan = self.planPlanner.choosePlan(goal)
+                    self.log.info(plan.assignGoal)
+                    self.botsPlan[bot] = plan
+                else:
+                    plan = self.botsPlan[bot]
+
+                # On execute l'action
+                action = plan.executePlan()
+                self.issue(action.command, bot, action.target, action.description);
+
 
     def shutdown(self):
         """Use this function to teardown your bot after the game is over, or perform an

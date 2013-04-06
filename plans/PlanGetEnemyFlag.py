@@ -1,10 +1,12 @@
 ﻿from api import commands
 from api import gameinfo
+from Plan import Plan
+from actions.ActionCharge import ActionCharge
 
-class PlanGetEnemyFlag:
+class PlanGetEnemyFlag(Plan):
     """Des plans possibles pour atteindre le but d'aller chercher le flag"""
 
     def __init__(self, gameInfo):
-        self.chargePath = [(commands.Charge, gameInfo.enemyTeam.flagSpawnLocation, "Charge sur leur flag")]
-        self.movePath = [(commands.Move, gameInfo.enemyTeam.flagSpawnLocation), "Move a leur flag"]
+        Plan.__init__(self, "GetEnemyFlag")
+        self.actionSequence = [ActionCharge(gameInfo.enemyTeam.flag.position)]
 
