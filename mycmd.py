@@ -133,6 +133,8 @@ class ReploidCommander(Commander):
                 action = plan.executePlan()
                 self.issue(action.command, bot, action.target, action.description);
 
+                self.log.info(self.game.enemyTeam.flag.position)
+
 
     def shutdown(self):
         """Use this function to teardown your bot after the game is over, or perform an

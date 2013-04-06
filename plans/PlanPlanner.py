@@ -1,12 +1,13 @@
 ﻿from api import gameinfo
 from PlanGetEnemyFlag import PlanGetEnemyFlag
+from plans.PlanProtectFlagCarrier import PlanProtectFlagCarrier
 import copy
 
 class PlanPlanner(object):
     """Classe pour déterminer le bon plan à utiliser pour résoudre le but"""
     
     def __init__(self, gameInfo):
-        self.planAvailable = [PlanGetEnemyFlag(gameInfo)]
+        self.planAvailable = [PlanGetEnemyFlag(gameInfo), PlanProtectFlagCarrier(gameInfo)]
         self.gameInfo = gameInfo
 
     def choosePlan(self, goal):
