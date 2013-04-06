@@ -4,12 +4,13 @@ from goals.GoalGetEnemyFlag import GoalGetEnemyFlag
 from goals.GoalKillAnyone import GoalKillAnyone
 from goals.GoalKillFlagCarrier import GoalKillFlagCarrier
 from goals.GoalKillSpecificDefender import GoalKillSpecificDefender
+from goals.GoalProtectFlagCarrier import GoalProtectFlagCarrier
 
 class GoalPlanner:
     """Conteneur des buts et méthode pour trouver le plus utile"""
 
     def __init__(self, gameInfo):
-        self.goals = [GoalKillAnyone(gameInfo), GoalKillSpecificDefender(gameInfo), GoalKillFlagCarrier(gameInfo), GoalGetEnemyFlag(gameInfo)]
+        self.goals = [GoalKillAnyone(gameInfo), GoalKillSpecificDefender(gameInfo), GoalKillFlagCarrier(gameInfo), GoalGetEnemyFlag(gameInfo), GoalProtectFlagCarrier(gameInfo)]
         self.game = gameInfo
 
     def findMostRevelantGoal(self):

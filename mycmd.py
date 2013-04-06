@@ -122,8 +122,9 @@ class ReploidCommander(Commander):
                 # Si on a pas de plan, on en cherche un nouveau
                 if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isPlanValid()):
                     goal = self.goalPlanner.findMostRevelantGoal()
+                    self.log.info("Nouveau but: " + goal.goalString)
                     plan = self.planPlanner.choosePlan(goal)
-                    self.log.info("Nouveau plan: " + plan.assignGoal)
+                    #self.log.info("Nouveau plan: " + plan.assignGoal)
                     self.botsPlan[bot] = plan
                 else:
                     plan = self.botsPlan[bot]

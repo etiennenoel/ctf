@@ -1,8 +1,8 @@
 ﻿from Goal import Goal
 from api import gameinfo 
 
-class GoalGetEnemyFlag(Goal):
-    """Représente le but d'aller chercher le flag ennemi"""
+class GoalProtectFlagCarrier(Goal):
+    """Représente le but de protéger le flag carrier"""
 
     ##################################################################################
     ## Function   : initialize
@@ -12,17 +12,18 @@ class GoalGetEnemyFlag(Goal):
     ##################################################################################
     def __init__(self, gameInfo):
         Goal.__init__(self, gameInfo)
-        self.goalString = "GetEnemyFlag"
+        self.goalString = "ProtectFlagCarrier"
 
     ##################################################################################
     ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but d'aller chercher leur flag
+    ## Description: Methode permettant de calculer l'utilite du but de protéger le flag carrier
     ## Parametres : self
     ##################################################################################   
     def calculateUtility(self):
-        allyTeamFlag = self.gameInfo.team.name + "Flag"
-        if self.gameInfo.flags[allyTeamFlag].carrier is None:
+        enemyTeamFlag = self.gameInfo.enemyTeam.name + "Flag"
+        if not self.gameInfo.flags[enemyTeamFlag].carrier is None:
             return 1
         else:
             return 0
+
 
