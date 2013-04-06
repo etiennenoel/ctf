@@ -6,8 +6,14 @@ class ActionDefend(Action):
 
     def __init__(self, target):
         Action.__init__(self)
+
+        #Command
         self.command = commands.Defend
+
+        #Facing direction
         self.target = target
-        self.description = "Defend position"
+
+        #Parametres supplementaires
+        self.params['description'] = 'Defend'
 
 

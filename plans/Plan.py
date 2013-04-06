@@ -23,5 +23,5 @@ class Plan:
             self.currentActionIndex = 0
             return False
 
-    def setSequence(self):
+    def setSequence(self, bot):
         abstract

@@ -20,8 +20,8 @@ class GoalGetEnemyFlag(Goal):
     ## Parametres : self
     ##################################################################################   
     def calculateUtility(self):
-        allyTeamFlag = self.gameInfo.team.name + "Flag"
-        if self.gameInfo.flags[allyTeamFlag].carrier is None:
+        enemyTeamFlag = self.gameInfo.enemyTeam.name + "Flag"
+        if self.gameInfo.flags[enemyTeamFlag].carrier is None:
             return 1
         else:
             return 0

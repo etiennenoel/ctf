@@ -5,3 +5,4 @@
         self.command = ""
         self.description = ""
         self.target= ""
+        self.params = {}

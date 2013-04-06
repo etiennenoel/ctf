@@ -8,6 +8,6 @@ class ActionMove(Action):
         Action.__init__(self)
         self.command = commands.Move
         self.target = target
-        self.description = "Move to position"
+        self.params['description'] = 'Move'
 
 

@@ -8,6 +8,6 @@ class ActionCharge(Action):
         Action.__init__(self)
         self.command = commands.Charge
         self.target = target
-        self.description = 'Run to enemy flag'
+        self.params['description'] = 'Charge'
 
 

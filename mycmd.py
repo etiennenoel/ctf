@@ -123,7 +123,7 @@ class ReploidCommander(Commander):
                 if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isPlanValid()):
                     goal = self.goalPlanner.findMostRevelantGoal()
                     self.log.info("Nouveau but: " + goal.goalString)
-                    plan = self.planPlanner.choosePlan(goal)
+                    plan = self.planPlanner.choosePlan(goal, bot)
                     #self.log.info("Nouveau plan: " + plan.assignGoal)
                     self.botsPlan[bot] = plan
                 else:
@@ -133,10 +133,7 @@ class ReploidCommander(Commander):
                 # On execute l'action
                 action = plan.executePlan()
                 self.log.info(str(action.command) + " " + str(action.target))
-                self.issue(action.command, bot, action.target, action.description);
-
-                self.log.info(self.game.enemyTeam.flag.position)
-
+                self.issue(action.command, bot, action.target, **action.params);
 
     def shutdown(self):
         """Use this function to teardown your bot after the game is over, or perform an
