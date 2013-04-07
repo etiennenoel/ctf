@@ -5,15 +5,18 @@ from goals.GoalKillAnyone import GoalKillAnyone
 from goals.GoalKillFlagCarrier import GoalKillFlagCarrier
 from goals.GoalKillSpecificDefender import GoalKillSpecificDefender
 from goals.GoalProtectFlagCarrier import GoalProtectFlagCarrier
+from goals.GoalBringBackEnemyFlag import GoalBringBackEnemyFlag
+
+# TODO: Limiter le nombre de bot pour chaque goal?
 
 class GoalPlanner:
     """Conteneur des buts et méthode pour trouver le plus utile"""
 
     def __init__(self, gameInfo):
-        self.goals = [GoalKillAnyone(gameInfo), GoalKillSpecificDefender(gameInfo), GoalKillFlagCarrier(gameInfo), GoalGetEnemyFlag(gameInfo), GoalProtectFlagCarrier(gameInfo)]
+        self.goals = [GoalKillAnyone(gameInfo), GoalKillSpecificDefender(gameInfo), GoalKillFlagCarrier(gameInfo), GoalGetEnemyFlag(gameInfo), GoalProtectFlagCarrier(gameInfo), GoalBringBackEnemyFlag(gameInfo)]
         self.game = gameInfo
 
-    def findMostRevelantGoal(self):
+    def findMostRevelantGoal(self,bot):
         # Valeur d'utilite par defaut
         mostRelevant = -1
 
@@ -22,8 +25,8 @@ class GoalPlanner:
         
         # Itere sur tous les buts pour trouver le plus utile
         for goal in self.goals:
-            utility = goal.calculateUtility()
-            if mostRelevant < goal.calculateUtility():
+            utility = goal.calculateUtility(bot)
+            if mostRelevant < utility:
                 mostRelevant = utility
                 doGoal = goal
 

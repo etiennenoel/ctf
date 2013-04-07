@@ -2,22 +2,13 @@
 from api import gameinfo 
 
 class GoalKillAnyone(Goal):
-    """description of class"""
+    """But d'aller à la recherche de quelqu'un à tuer"""
 
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
     def __init__(self, gameInfo):
+        """Méthode pour initialiser le but"""
         Goal.__init__(self, gameInfo)
         self.goalString = "KillAnyone"
 
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but de tuer le flag carrier
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
+    def calculateUtility(self, bot):
+        """Méthode permettant de calculer l'utilité d'aller en mode tuerie"""
         return 0

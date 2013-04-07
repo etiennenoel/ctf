@@ -1,23 +1,17 @@
 ﻿from Goal import Goal
 from api import gameinfo 
 
+#TODO: l'utilite augmente si on se fait tuer par le meme ennemie plusieurs fois a la meme place
+
 class GoalKillSpecificDefender(Goal):
-    """description of class"""
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
+    """Représente le but de tuer un defender ennemie"""
+
     def __init__(self, gameInfo):
+        """Méthode pour initialiser le but"""
         Goal.__init__(self, gameInfo)
         self.goalString = "KillSpecificDefender"
 
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but de tuer un defenseur precis
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
+    def calculateUtility(self, bot):
+        """Méthode permettant de calculer l'utilité de tuer un defenseur précis"""
         return 0
 

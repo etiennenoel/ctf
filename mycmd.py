@@ -21,12 +21,7 @@ class ReploidCommander(Commander):
     Rename and modify this class to create your own commander and add mycmd.Placeholder
     to the execution command you use to run the competition.
     """
-
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le commander 
-    ## Parametres : self
-    ##################################################################################    
+   
     def initialize(self):
         """Use this function to setup your bot before the game starts."""
         self.verbose = True    # display the command descriptions next to the bot labels
@@ -42,12 +37,9 @@ class ReploidCommander(Commander):
         self.hidingSpot = []
         self.findHidingSpot()
                 
-    ##################################################################################
-    ## Function   : findHidingSpot
-    ## Description: Methode permettant de trouver les cachettes afin de pouvoir camper 
-    ## Parametres : self
-    ##################################################################################          
     def findHidingSpot(self):
+        """Methode permettant de trouver les cachettes afin de pouvoir camper """
+
         x = 0
         # Pour toutes les cases, on regarde s'il y a deux bloques adjacents
         for column in self.level.blockHeights:
@@ -111,29 +103,23 @@ class ReploidCommander(Commander):
 
         # for all bots which aren't currently doing anything
         for bot in self.game.bots_available:
-            if bot.flag:
-                # if a bot has the flag run to the scoring location
-                flagScoreLocation = self.game.team.flagScoreLocation
-                self.issue(commands.Charge, bot, flagScoreLocation, description = 'Run to my flag')
+            # Plan a executer
+            plan = ""
+
+            # Si on a pas de plan, on en cherche un nouveau
+            if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isPlanValid()):
+                goal = self.goalPlanner.findMostRevelantGoal(bot)
+                plan = self.planPlanner.choosePlan(goal, bot)
+                self.botsPlan[bot] = plan
             else:
-                # Plan a executer
-                plan = ""
+                plan = self.botsPlan[bot]
+                self.log.info("Plan: " + plan.assignGoal)
 
-                # Si on a pas de plan, on en cherche un nouveau
-                if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isPlanValid()):
-                    goal = self.goalPlanner.findMostRevelantGoal()
-                    self.log.info("Nouveau but: " + goal.goalString)
-                    plan = self.planPlanner.choosePlan(goal, bot)
-                    #self.log.info("Nouveau plan: " + plan.assignGoal)
-                    self.botsPlan[bot] = plan
-                else:
-                    plan = self.botsPlan[bot]
-                    self.log.info("Plan: " + plan.assignGoal)
-
-                # On execute l'action
-                action = plan.executePlan()
-                self.log.info(str(action.command) + " " + str(action.target))
-                self.issue(action.command, bot, action.target, **action.params);
+            # On execute l'action
+            action = plan.executePlan()
+            action.params['description'] = plan.assignGoal
+            self.log.info(str(action.command) + " " + str(action.target))
+            self.issue(action.command, bot, action.target, **action.params);
 
     def shutdown(self):
         """Use this function to teardown your bot after the game is over, or perform an

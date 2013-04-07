@@ -1,1 +1,1 @@
-﻿__all__ = ["Goal", "GoalPlanner", "GoalKillAnyone", "GoalKillFlagCarrier", "GoalKillSpecificDefender", "GoalGetEnemyFlag", "GoalProtectFlagCarrier"]
+﻿__all__ = ["Goal", "GoalPlanner", "GoalKillAnyone", "GoalKillFlagCarrier", "GoalKillSpecificDefender", "GoalGetEnemyFlag", "GoalProtectFlagCarrier", "GoalBringBackEnemyFlag", "GoalProtectFlag"]

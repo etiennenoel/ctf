@@ -1,24 +1,20 @@
 ﻿from Goal import Goal
 from api import gameinfo 
 
-class GoalKillFlagCarrier(Goal):
-    """description of class"""
+# TODO: Si on est plus proche du flag position, alors on choisi ce but sinon on va protéger leur capture point
 
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
+class GoalKillFlagCarrier(Goal):
+    """Classe représentant le but d'aller tuer l'ennemi possédant notre flag"""
+
     def __init__(self, gameInfo):
+        """Methode pour initialiser le but"""
         Goal.__init__(self, gameInfo)
         self.goalString = "KillFlagCarrier"
 
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but de tuer le flag carrier
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self):
-        return 0
+    def calculateUtility(self, bot):
+        """Methode permettant de calculer l'utilite du but de tuer le flag carrier"""
+        if self.gameInfo.team.flag.carrier is not None:
+            return 0.75
+        else:
+            return 0
 

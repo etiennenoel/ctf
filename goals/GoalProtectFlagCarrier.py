@@ -19,10 +19,10 @@ class GoalProtectFlagCarrier(Goal):
     ## Description: Methode permettant de calculer l'utilite du but de protéger le flag carrier
     ## Parametres : self
     ##################################################################################   
-    def calculateUtility(self):
+    def calculateUtility(self, bot):
         enemyTeamFlag = self.gameInfo.enemyTeam.name + "Flag"
         if not self.gameInfo.flags[enemyTeamFlag].carrier is None:
-            return 1
+            return 0.5
         else:
             return 0
 
