@@ -16,7 +16,7 @@ class GoalPlanner:
         self.goals = [GoalKillAnyone(gameInfo), GoalKillSpecificDefender(gameInfo), GoalKillFlagCarrier(gameInfo), GoalGetEnemyFlag(gameInfo), GoalProtectFlagCarrier(gameInfo), GoalBringBackEnemyFlag(gameInfo)]
         self.game = gameInfo
 
-    def findMostRevelantGoal(self,bot):
+    def findMostRevelantGoal(self,bot, blackboard):
         # Valeur d'utilite par defaut
         mostRelevant = -1
 
@@ -25,7 +25,7 @@ class GoalPlanner:
         
         # Itere sur tous les buts pour trouver le plus utile
         for goal in self.goals:
-            utility = goal.calculateUtility(bot)
+            utility = goal.calculateUtility(bot, blackboard)
             if mostRelevant < utility:
                 mostRelevant = utility
                 doGoal = goal

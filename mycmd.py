@@ -14,7 +14,7 @@ from goals.GoalPlanner import GoalPlanner
 from goals.Goal import Goal
 
 from plans.PlanPlanner import PlanPlanner
-
+from Blackboard import Blackboard
 
 class ReploidCommander(Commander):
     """
@@ -36,6 +36,9 @@ class ReploidCommander(Commander):
         #Cherche les bonnes cases pour camper
         self.hidingSpot = []
         self.findHidingSpot()
+
+        #Blackboard
+        self.blackboard = Blackboard(self.hidingSpot)
                 
     def findHidingSpot(self):
         """Methode permettant de trouver les cachettes afin de pouvoir camper """
@@ -108,7 +111,11 @@ class ReploidCommander(Commander):
 
             # Si on a pas de plan, on en cherche un nouveau
             if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isPlanValid()):
-                goal = self.goalPlanner.findMostRevelantGoal(bot)
+                # Choix d'un but
+                goal = self.goalPlanner.findMostRevelantGoal(bot, self.blackboard)
+                self.blackboard.botsAssignGoal[bot.name] = goal.goalString
+                
+                # Choix du plan
                 plan = self.planPlanner.choosePlan(goal, bot)
                 self.botsPlan[bot] = plan
             else:

@@ -14,8 +14,8 @@ class GoalGetEnemyFlag(Goal):
         Goal.__init__(self, gameInfo)
         self.goalString = "GetEnemyFlag"
 
-    def calculateUtility(self, bot):
-        """Methode permettant de calculer l'utilite du but d'aller chercher leur flag"""
+    def calculateUtility(self, bot, blackboard):
+        """Methode permettant de calculer l'utilité d'aller chercher leur flag"""
 
         enemyTeamFlag = self.gameInfo.enemyTeam.name + "Flag"
         if self.gameInfo.flags[enemyTeamFlag].carrier is None:

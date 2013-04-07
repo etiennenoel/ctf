@@ -11,7 +11,7 @@ class GoalKillSpecificDefender(Goal):
         Goal.__init__(self, gameInfo)
         self.goalString = "KillSpecificDefender"
 
-    def calculateUtility(self, bot):
+    def calculateUtility(self, bot, blackboard):
         """Méthode permettant de calculer l'utilité de tuer un defenseur précis"""
         return 0
 

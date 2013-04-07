@@ -6,7 +6,7 @@
         self.gameInfo = gameInfo
         self.goalString = ""
 
-    def calculateUtility(self, bot):
+    def calculateUtility(self, bot, blackboard):
         """Methode abstraite permettant de calculer l'utilite du but"""
         abstract
 

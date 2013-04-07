@@ -11,7 +11,7 @@ class GoalProtectFlag(Goal):
         Goal.__init__(self, gameInfo)
         self.goalString = "ProtectFlag"
 
-    def calculateUtility(self, bot):
+    def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilité de protéger notre flag"""
         return 0.5
 

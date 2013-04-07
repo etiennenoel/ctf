@@ -4,22 +4,13 @@ from api import gameinfo
 class GoalProtectFlagCarrier(Goal):
     """Représente le but de protéger le flag carrier"""
 
-    ##################################################################################
-    ## Function   : initialize
-    ## Description: Methode pour initialiser le but 
-    ## Parametres : self
-    ##              gameInfo: informations sur la partie
-    ##################################################################################
     def __init__(self, gameInfo):
+        """Méthode pour initialiser le but"""
         Goal.__init__(self, gameInfo)
         self.goalString = "ProtectFlagCarrier"
 
-    ##################################################################################
-    ## Function   : calculteUtility
-    ## Description: Methode permettant de calculer l'utilite du but de protéger le flag carrier
-    ## Parametres : self
-    ##################################################################################   
-    def calculateUtility(self, bot):
+    def calculateUtility(self, bot, blackboard):
+        """Méthode permettant de calculer l'utilité de protéger le flag carrier"""
         enemyTeamFlag = self.gameInfo.enemyTeam.name + "Flag"
         if not self.gameInfo.flags[enemyTeamFlag].carrier is None:
             return 0.5

@@ -9,6 +9,6 @@ class GoalKillAnyone(Goal):
         Goal.__init__(self, gameInfo)
         self.goalString = "KillAnyone"
 
-    def calculateUtility(self, bot):
+    def calculateUtility(self, bot, blackboard):
         """Méthode permettant de calculer l'utilité d'aller en mode tuerie"""
         return 0
