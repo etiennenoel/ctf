@@ -9,5 +9,5 @@ class PlanGetEnemyFlag(Plan):
     def __init__(self, gameInfo):
         Plan.__init__(self, "GetEnemyFlag", gameInfo)
         
-    def setSequence(self, bot):
+    def setSequence(self, bot, blackboard):
         self.actionSequence = [ActionCharge(self.gameInfo.enemyTeam.flag.position)]

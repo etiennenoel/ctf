@@ -38,11 +38,10 @@ class ReploidCommander(Commander):
         self.findHidingSpot()
 
         #Blackboard
-        self.blackboard = Blackboard(self.hidingSpot)
+        self.blackboard = Blackboard(self.hidingSpot, self.level)
                 
     def findHidingSpot(self):
         """Methode permettant de trouver les cachettes afin de pouvoir camper """
-
         x = 0
         # Pour toutes les cases, on regarde s'il y a deux bloques adjacents
         for column in self.level.blockHeights:
@@ -91,8 +90,7 @@ class ReploidCommander(Commander):
                 
                     # On considere que c'est une bonne cachette s'il y a au moins deux murs
                     if numberOfAdjacentWall > 1:
-                        self.hidingSpot.append((y,x))
-                        #self.log.info((x,y))
+                        self.hidingSpot.append(Vector2(x,y))
                 
                 # On veut la position de la prochaine case en x
                 y += 1
@@ -114,9 +112,9 @@ class ReploidCommander(Commander):
                 # Choix d'un but
                 goal = self.goalPlanner.findMostRevelantGoal(bot, self.blackboard)
                 self.blackboard.botsAssignGoal[bot.name] = goal.goalString
-                
+
                 # Choix du plan
-                plan = self.planPlanner.choosePlan(goal, bot)
+                plan = self.planPlanner.choosePlan(bot, self.blackboard)
                 self.botsPlan[bot] = plan
             else:
                 plan = self.botsPlan[bot]
@@ -125,7 +123,7 @@ class ReploidCommander(Commander):
             # On execute l'action
             action = plan.executePlan()
             action.params['description'] = plan.assignGoal
-            self.log.info(str(action.command) + " " + str(action.target))
+            #self.log.info(str(action.command) + " " + str(action.target))
             self.issue(action.command, bot, action.target, **action.params);
 
     def shutdown(self):

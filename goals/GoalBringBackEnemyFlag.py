@@ -12,8 +12,7 @@ class GoalBringBackEnemyFlag(Goal):
 
     def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilité de ramener le flag"""
-        carrier = self.gameInfo.enemyTeam.flag.carrier
-        if carrier is not None and bot == carrier:
+        if bot.flag:
             return 1
         else:
             return 0

@@ -2,6 +2,8 @@
 from PlanGetEnemyFlag import PlanGetEnemyFlag
 from plans.PlanProtectFlagCarrier import PlanProtectFlagCarrier
 from plans.PlanBringBackEnemyFlag import PlanBringBackEnemyFlag
+from plans.PlanProtectFlag import PlanProtectFlag
+from Blackboard import Blackboard
 
 import copy
 
@@ -13,17 +15,19 @@ class PlanPlanner(object):
         self.planAvailable["GetEnemyFlag"] = [PlanGetEnemyFlag(gameInfo)]
         self.planAvailable["ProtectFlagCarrier"] = [PlanProtectFlagCarrier(gameInfo)]
         self.planAvailable["BringBackEnemyFlag"] = [PlanBringBackEnemyFlag(gameInfo)]
+        self.planAvailable["ProtectFlag"] = [PlanProtectFlag(gameInfo)]
 
         self.gameInfo = gameInfo
 
-    def choosePlan(self, goal, bot):
+    def choosePlan(self, bot, blackboard):
         #Choisi le meilleur plan remplissant le but
-        for planIteration in self.planAvailable[goal.goalString]:
-            if planIteration.assignGoal == goal.goalString:
-                plan = copy.deepcopy(self.planAvailable[goal.goalString][0])
+        goal = blackboard.botsAssignGoal[bot.name]
+        for planIteration in self.planAvailable[goal]:
+            if planIteration.assignGoal == goal:
+                plan = copy.deepcopy(self.planAvailable[goal][0])
 
                 #Set la sequence parce que le target est variable
-                plan.setSequence(bot)
+                plan.setSequence(bot, blackboard)
 
         return plan
 

@@ -6,6 +6,7 @@ from goals.GoalKillFlagCarrier import GoalKillFlagCarrier
 from goals.GoalKillSpecificDefender import GoalKillSpecificDefender
 from goals.GoalProtectFlagCarrier import GoalProtectFlagCarrier
 from goals.GoalBringBackEnemyFlag import GoalBringBackEnemyFlag
+from goals.GoalProtectFlag import GoalProtectFlag
 
 # TODO: Limiter le nombre de bot pour chaque goal?
 
@@ -14,6 +15,7 @@ class GoalPlanner:
 
     def __init__(self, gameInfo):
         self.goals = [GoalKillAnyone(gameInfo), GoalKillSpecificDefender(gameInfo), GoalKillFlagCarrier(gameInfo), GoalGetEnemyFlag(gameInfo), GoalProtectFlagCarrier(gameInfo), GoalBringBackEnemyFlag(gameInfo)]
+        self.goals.append(GoalProtectFlag(gameInfo))
         self.game = gameInfo
 
     def findMostRevelantGoal(self,bot, blackboard):
