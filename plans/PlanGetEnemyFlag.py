@@ -8,6 +8,15 @@ class PlanGetEnemyFlag(Plan):
 
     def __init__(self, gameInfo):
         Plan.__init__(self, "GetEnemyFlag", gameInfo)
+
+    def isPlanValid(self):
+        if self.gameInfo.enemyTeam.flag.carrier is not None:
+            return false
+        elif self.currentActionIndex < len(self.actionSequence):
+            return True
+        else:
+            self.currentActionIndex = 0
+            return False
         
     def setSequence(self, bot, blackboard):
         self.actionSequence = [ActionCharge(self.gameInfo.enemyTeam.flag.position)]

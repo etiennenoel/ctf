@@ -1,7 +1,7 @@
 ﻿from Goal import Goal
 from api import gameinfo 
 
-#TODO: Nombre de bot defending: au début tout le monde va protéger notre flag et les restants vont partir à l'attaque
+#TODO: Nombre de bot defending
 
 class GoalProtectFlag(Goal):
     """Classe représentant le but de protéger notre flag"""

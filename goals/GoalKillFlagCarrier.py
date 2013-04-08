@@ -14,7 +14,7 @@ class GoalKillFlagCarrier(Goal):
     def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilite du but de tuer le flag carrier"""
         if self.gameInfo.team.flag.carrier is not None:
-            return 0.75
+            return 0.4
         else:
             return 0
 
