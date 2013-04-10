@@ -19,7 +19,7 @@ class GoalGetEnemyFlag(Goal):
 
         enemyTeamFlag = self.gameInfo.enemyTeam.name + "Flag"
         if self.gameInfo.flags[enemyTeamFlag].carrier is None:
-            return 1
+            return 0.8
         else:
             return 0
 

@@ -13,6 +13,7 @@ from api import Vector2
 from goals.GoalPlanner import GoalPlanner
 from goals.Goal import Goal
 
+import math
 from plans.PlanPlanner import PlanPlanner
 from Blackboard import Blackboard
 
@@ -34,12 +35,13 @@ class ReploidCommander(Commander):
         self.botsPlan = {}
 
         #Cherche les bonnes cases pour camper
-        self.hidingSpot = []
+        self.hidingLocations = []
         self.findHidingSpot()
 
         #Blackboard
-        self.blackboard = Blackboard(self.hidingSpot, self.level)
-                
+        self.blackboard = Blackboard(self.hidingLocations, self.level)
+        self.blackboard.numberOfDefender = math.floor(len(self.game.bots)/2 * 0.4)
+                                  
     def findHidingSpot(self):
         """Methode permettant de trouver les cachettes afin de pouvoir camper """
         x = 0
@@ -90,7 +92,8 @@ class ReploidCommander(Commander):
                 
                     # On considere que c'est une bonne cachette s'il y a au moins deux murs
                     if numberOfAdjacentWall > 1:
-                        self.hidingSpot.append(Vector2(x,y))
+                        square = HidingSquare(Vector2(x,y))
+                        self.hidingLocations.append(square)
                 
                 # On veut la position de la prochaine case en x
                 y += 1
@@ -101,6 +104,12 @@ class ReploidCommander(Commander):
     def tick(self):
         """Override this function for your own bots.  Here you can access all the information in self.game,
         which includes game information, and self.level which includes information about the level."""
+
+        for bot in self.game.team.members:
+            if bot.state == bot.STATE_DEAD and self.blackboard.botsAssignGoal[bot.name] == 'ProtectFlag':
+                self.blackboard.botsAssignGoal[bot.name] = 'Dead'
+                self.blackboard.actualDefender -= 1
+                print str(self.blackboard.actualDefender)
 
         # for all bots which aren't currently doing anything
         for bot in self.game.bots_available:
@@ -113,17 +122,18 @@ class ReploidCommander(Commander):
                 goal = self.goalPlanner.findMostRevelantGoal(bot, self.blackboard)
                 self.blackboard.botsAssignGoal[bot.name] = goal.goalString
 
+                if goal.goalString == 'ProtectFlag':
+                    self.blackboard.actualDefender += 1
+
                 # Choix du plan
                 plan = self.planPlanner.choosePlan(bot, self.blackboard)
                 self.botsPlan[bot] = plan
             else:
                 plan = self.botsPlan[bot]
-                self.log.info("Plan: " + plan.assignGoal)
 
             # On execute l'action
             action = plan.executePlan()
             action.params['description'] = plan.assignGoal
-            #self.log.info(str(action.command) + " " + str(action.target))
             self.issue(action.command, bot, action.target, **action.params);
 
     def shutdown(self):
@@ -132,3 +142,18 @@ class ReploidCommander(Commander):
 
         pass
 
+class HidingSquare:
+    """Classe representant une case qui est consideree comme une cachette"""
+    
+    def __init__(self, position):
+        """
+        kill: nombre de kill fait a la position
+        death: nombre de fois qu'un bot est mort a cette position
+        position: Vector2 de la case
+        botAtPosition: Liste de bots qui sont actuellement sur la case
+        """
+        self.kill = 0
+        self.death = 0
+        self.position = position
+        self.botAtPosition = []
+    

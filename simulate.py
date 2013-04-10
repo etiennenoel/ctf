@@ -18,11 +18,11 @@ from game.application import CaptureTheFlag
 
 
 # By default load these commanders.
-defaults = ['examples.BalancedCommander', 'mycmd.ReploidCommander']
+defaults = ['examples.GreedyCommander', 'mycmd.ReploidCommander']
 
 # Possible levels that can be used.
 #levels = ['map00', 'map01', 'map02', 'map03', 'map10', 'map11', 'map12', 'map13',
- #         'map20', 'map21', 'map22', 'map23', 'map30', 'map31', 'map32', 'map33']
+#          'map20', 'map21', 'map22', 'map23', 'map30', 'map31', 'map32', 'map33']
 levels = ['map00']
 
 def main(PreferedRunner, args, accel, **kwargs):

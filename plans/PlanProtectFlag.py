@@ -1,5 +1,6 @@
 ﻿import sys
 import math
+from random import choice
 
 from api import commands
 from api import gameinfo
@@ -10,10 +11,10 @@ from actions.ActionCharge import ActionCharge
 from actions.ActionDefend import ActionDefend
 
 #TODO: LOS bloquer
-#TODO: se mettre le plus proche du mur possible et pas au milieu
-#TODO: en cas d'égalité, le plus proche de nous et celui avec le meilleur rating
 #TODO: Sweep
-#TODO: si la case est déjà pris: stacker ou en prendre un autre?
+#TODO: si pas de cachette, se mettre sur le flag
+#TODO: distance minimale depend du range
+#TODO: si le flag etait tomber, et quil est revenu a notre base, rechercher une nouvelle cachette pres du flag
 
 class PlanProtectFlag(Plan):
     """Plan pour protéger le flag"""
@@ -27,21 +28,32 @@ class PlanProtectFlag(Plan):
         bestDistanceToFlag = sys.maxint
         flagPosition = self.gameInfo.team.flag.position
 
-        for square in blackboard.hidingSpot:
-            # distance entre la case et le flag
-            distance = flagPosition.distance(square)
-            if distance == bestDistanceToFlag:
-                # si egaliter, on choisi la case la plus proche du bot
-                if bot.position.distance(square) < bot.position.distance(bestSquare):
-                    bestDistanceToFlag = distance
-                    bestSquare = square
+        ## Faire une liste de toutes les positions entre une borne superieur et inferieure
+        possibleLocation = []
+        for square in blackboard.hidingLocations:
+            distance = flagPosition.distance(square.position)
+            # TODO: minimum distance en lien avec l'angle
+            if distance < blackboard.level.firingDistance and distance > 2.0:
+                possibleLocation.append(square)
 
-            elif distance < bestDistanceToFlag:
-                bestDistanceToFlag = distance
-                bestSquare = square
+        ## Prendre celui avec le meilleur score ou sinon random
+        bestSquare = choice(possibleLocation)
+
+        #for square in blackboard.hidingLocations:
+        #    # distance entre la case et le flag
+        #    distance = flagPosition.distance(square.position)
+        #    if distance == bestDistanceToFlag:
+        #        # si egaliter, on choisi la case la plus proche du bot
+        #        if bot.position.distance(square.position) < bot.position.distance(bestSquare.position):
+        #            bestDistanceToFlag = distance
+        #            bestSquare = square
+
+        #    elif distance < bestDistanceToFlag:
+        #        bestDistanceToFlag = distance
+        #        bestSquare = square
 
         # On set la sequence d'actions pour se rendre a la position et se mettre en defend
-        targetSquare = blackboard.level.findNearestFreePosition(bestSquare)
-        self.actionSequence = [ActionCharge(targetSquare),ActionDefend([flagPosition - targetSquare])]
+        targetSquareLocation = blackboard.level.findNearestFreePosition(bestSquare.position)
+        self.actionSequence = [ActionCharge(targetSquareLocation),ActionDefend([flagPosition - targetSquareLocation])]
 
 

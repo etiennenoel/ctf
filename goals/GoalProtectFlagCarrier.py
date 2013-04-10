@@ -16,5 +16,3 @@ class GoalProtectFlagCarrier(Goal):
             return 0.5
         else:
             return 0
-
-
