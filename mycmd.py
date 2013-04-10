@@ -106,10 +106,14 @@ class ReploidCommander(Commander):
         which includes game information, and self.level which includes information about the level."""
 
         for bot in self.game.team.members:
-            if bot.state == bot.STATE_DEAD and self.blackboard.botsAssignGoal[bot.name] == 'ProtectFlag':
-                self.blackboard.botsAssignGoal[bot.name] = 'Dead'
-                self.blackboard.actualDefender -= 1
-                print str(self.blackboard.actualDefender)
+            if bot.state == bot.STATE_DEAD:
+                if self.blackboard.botsAssignGoal[bot.name] == 'ProtectFlag':
+                    self.blackboard.botsAssignGoal[bot.name] = 'Dead'
+                    self.blackboard.actualDefender -= 1
+                    print str(self.blackboard.actualDefender)
+
+                # clear blackboard
+                self.blackboard.botsAssignGoal[bot] = "Unknown"
 
         # for all bots which aren't currently doing anything
         for bot in self.game.bots_available:
@@ -124,6 +128,7 @@ class ReploidCommander(Commander):
 
                 if goal.goalString == 'ProtectFlag':
                     self.blackboard.actualDefender += 1
+                    print str(self.blackboard.actualDefender)
 
                 # Choix du plan
                 plan = self.planPlanner.choosePlan(bot, self.blackboard)

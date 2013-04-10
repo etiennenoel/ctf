@@ -17,8 +17,7 @@ class GoalGetEnemyFlag(Goal):
 
     def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilité d'aller chercher leur flag"""
-        enemyTeamFlag = self.gameInfo.enemyTeam.name + "Flag"
-        if self.gameInfo.flags[enemyTeamFlag].carrier is None:
+        if self.gameInfo.enemyTeam.flag.carrier is None:
 
             # score et temps
             STConstant = 3
