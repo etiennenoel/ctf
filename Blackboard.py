@@ -6,7 +6,7 @@ class Blackboard(object):
     ce qui l'entour afin de choisir un but et un plan éclairés.
     """
 
-    def __init__(self, hidingLocations, level):
+    def __init__(self, hidingLocations, level, commander):
         # Informations sur les cachettes (kill, death, bot a la position, position)
         self.hidingLocations = hidingLocations
 
@@ -19,3 +19,6 @@ class Blackboard(object):
         # Nombre de defenseurs
         self.numberOfDefender = 0
         self.actualDefender = 0 
+
+        # commander pour pouvoir log
+        self.commander = commander

@@ -1,6 +1,7 @@
 ﻿import sys
 import math
 from random import choice
+from copy import deepcopy
 
 from api import commands
 from api import gameinfo
@@ -53,7 +54,10 @@ class PlanProtectFlag(Plan):
         #        bestSquare = square
 
         # On set la sequence d'actions pour se rendre a la position et se mettre en defend
-        targetSquareLocation = blackboard.level.findNearestFreePosition(bestSquare.position)
+        #targetSquareLocation = blackboard.level.findNearestFreePosition(bestSquare.position)
+        targetSquareLocation = deepcopy(bestSquare.position)
+        targetSquareLocation.x += 0.5
+        targetSquareLocation.y += 0.5
         self.actionSequence = [ActionCharge(targetSquareLocation),ActionDefend([flagPosition - targetSquareLocation])]
 
 

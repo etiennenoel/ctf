@@ -39,7 +39,7 @@ class ReploidCommander(Commander):
         self.findHidingSpot()
 
         #Blackboard
-        self.blackboard = Blackboard(self.hidingLocations, self.level)
+        self.blackboard = Blackboard(self.hidingLocations, self.level, self)
         self.blackboard.numberOfDefender = math.floor(len(self.game.bots)/2 * 0.4)
                                   
     def findHidingSpot(self):

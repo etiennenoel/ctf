@@ -14,7 +14,7 @@ class GoalProtectFlag(Goal):
     def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilité de protéger notre flag"""
         if blackboard.actualDefender < blackboard.numberOfDefender:
-            return 1
+            return 100
         else:
             return 0
 
