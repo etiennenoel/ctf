@@ -41,6 +41,9 @@ class ReploidCommander(Commander):
         #Blackboard
         self.blackboard = Blackboard(self.hidingLocations, self.level, self)
         self.blackboard.numberOfDefender = math.floor(len(self.game.bots)/2 * 0.4)
+
+        #Le jeu commence deja avec des events (le 2 c'est les flag qui spawn)
+        self.lastEventCount = len(self.game.bots) + 2
                                   
     def findHidingSpot(self):
         """Methode permettant de trouver les cachettes afin de pouvoir camper """
@@ -105,42 +108,61 @@ class ReploidCommander(Commander):
         """Override this function for your own bots.  Here you can access all the information in self.game,
         which includes game information, and self.level which includes information about the level."""
 
+        # Regarde s'il y a eu un fait marquant
+        hasToUpdate = False
+        if len(self.game.match.combatEvents) > self.lastEventCount:
+            lastEvent = self.game.match.combatEvents[-1]
+            if lastEvent.subject == self.game.team.flag or lastEvent.subject == self.game.enemyTeam.flag:
+                print 'evenement marquant'
+                hasToUpdate = True
+
+            self.lastEventCount = len(self.game.match.combatEvents)
+
+
         for bot in self.game.team.members:
+            # Plan a executer
+            plan = ""
+
+            # Regarde si le bot est disponible
+            isAvailable = bot.health > 0 and bot.state == bot.STATE_IDLE
+            
+            # Clear les variables si le bot est mort
             if bot.state == bot.STATE_DEAD:
                 if self.blackboard.botsAssignGoal[bot.name] == 'ProtectFlag':
-                    self.blackboard.botsAssignGoal[bot.name] = 'Dead'
                     self.blackboard.actualDefender -= 1
-                    print str(self.blackboard.actualDefender)
 
                 # clear blackboard
                 self.blackboard.botsAssignGoal[bot] = "Unknown"
 
-        # for all bots which aren't currently doing anything
-        for bot in self.game.bots_available:
-            # Plan a executer
-            plan = ""
+            elif isAvailable or hasToUpdate:
+                # S'il y a eu un evenement marquant alors le bot doit updater son but meme s'il est occuper
+                
+                # Bot n'a pas de plan
+                if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isPlanValid()) or hasToUpdate:
 
-            # Si on a pas de plan, on en cherche un nouveau
-            if (not self.botsPlan.__contains__(bot)) or (not self.botsPlan[bot].isPlanValid()):
-                # Choix d'un but
-                goal = self.goalPlanner.findMostRevelantGoal(bot, self.blackboard)
-                self.blackboard.botsAssignGoal[bot.name] = goal.goalString
+                    if self.blackboard.botsAssignGoal.__contains__(bot.name) and self.blackboard.botsAssignGoal[bot.name] == 'ProtectFlag' and hasToUpdate:
+                        self.blackboard.actualDefender -= 1
 
-                if goal.goalString == 'ProtectFlag':
-                    self.blackboard.actualDefender += 1
-                    print str(self.blackboard.actualDefender)
+                    # Choix d'un but
+                    goal = self.goalPlanner.findMostRevelantGoal(bot, self.blackboard)
+                    self.blackboard.botsAssignGoal[bot.name] = goal.goalString
 
-                # Choix du plan
-                plan = self.planPlanner.choosePlan(bot, self.blackboard)
-                self.botsPlan[bot] = plan
-            else:
-                plan = self.botsPlan[bot]
+                    if goal.goalString == 'ProtectFlag':
+                        self.blackboard.actualDefender += 1
 
-            # On execute l'action
-            action = plan.executePlan()
-            action.params['description'] = plan.assignGoal
-            self.issue(action.command, bot, action.target, **action.params);
+                    # Choix du plan
+                    plan = self.planPlanner.choosePlan(bot, self.blackboard)
+                    self.botsPlan[bot] = plan
+                else:
+                    # Le plan est de continuer la sequence d'action
+                    plan = self.botsPlan[bot]
 
+                # On execute l'action
+                action = plan.executePlan()
+                action.params['description'] = plan.assignGoal
+                self.issue(action.command, bot, action.target, **action.params);
+
+            
     def shutdown(self):
         """Use this function to teardown your bot after the game is over, or perform an
         analysis of the data accumulated during the game."""

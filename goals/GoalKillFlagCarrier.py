@@ -10,11 +10,24 @@ class GoalKillFlagCarrier(Goal):
         """Methode pour initialiser le but"""
         Goal.__init__(self, gameInfo)
         self.goalString = "KillFlagCarrier"
+        self.defaultValue = 70
 
     def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilite du but de tuer le flag carrier"""
         if self.gameInfo.team.flag.carrier is not None:
-            return 0.4
+            enemyDistanceToScoreZone = self.gameInfo.team.flag.position.distance(self.gameInfo.enemyTeam.flagScoreLocation)
+            botDistanceToEnemy = bot.position.distance(self.gameInfo.team.flag.position)
+
+            distanceConstant = 5
+            distanceScore = (enemyDistanceToScoreZone/botDistanceToEnemy)*5
+
+            score = self.defaultValue + distanceScore
+
+            if blackboard.botsAssignGoal[bot.name] == 'ProtectFlag':
+                score += 35
+
+            return score
+
         else:
             return 0
 

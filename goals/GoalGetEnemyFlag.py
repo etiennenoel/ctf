@@ -26,10 +26,7 @@ class GoalGetEnemyFlag(Goal):
 
             # nombre de bot qui ont déjà cet ordre
             BotConstant = 2
-            numberOfBot = 0
-            for goal in blackboard.botsAssignGoal.values():
-                if goal == self.goalString:
-                    numberOfBot += 1
+            numberOfBot = self.numberOfBotWithSameGoal(blackboard)
 
             BotValue = numberOfBot * BotConstant
 

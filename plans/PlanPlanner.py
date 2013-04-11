@@ -3,6 +3,7 @@ from PlanGetEnemyFlag import PlanGetEnemyFlag
 from plans.PlanProtectFlagCarrier import PlanProtectFlagCarrier
 from plans.PlanBringBackEnemyFlag import PlanBringBackEnemyFlag
 from plans.PlanProtectFlag import PlanProtectFlag
+from plans.PlanKillFlagCarrier import PlanKillFlagCarrier
 from Blackboard import Blackboard
 
 import copy
@@ -16,6 +17,7 @@ class PlanPlanner(object):
         self.planAvailable["ProtectFlagCarrier"] = [PlanProtectFlagCarrier(gameInfo)]
         self.planAvailable["BringBackEnemyFlag"] = [PlanBringBackEnemyFlag(gameInfo)]
         self.planAvailable["ProtectFlag"] = [PlanProtectFlag(gameInfo)]
+        self.planAvailable["KillFlagCarrier"] = [PlanKillFlagCarrier(gameInfo)]
 
         self.gameInfo = gameInfo
 

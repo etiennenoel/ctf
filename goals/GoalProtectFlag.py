@@ -10,11 +10,24 @@ class GoalProtectFlag(Goal):
         """Methode pour initialiser le but"""
         Goal.__init__(self, gameInfo)
         self.goalString = "ProtectFlag"
+        self.defaultValue = 30
 
     def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilité de protéger notre flag"""
-        if blackboard.actualDefender < blackboard.numberOfDefender:
+
+        # Si le flag a ete pris
+        if not self.gameInfo.team.flag.position == self.gameInfo.team.flagSpawnLocation:
+            # A terre?
+            if self.gameInfo.team.flag.carrier is not None:
+                return 0
+            else:
+                # Proteger le flag jusqu'a temps qu'il revient a la base
+                return self.defaultValue
+
+        # Avoir un minimum de defenseur
+        elif blackboard.actualDefender < blackboard.numberOfDefender:
             return 100
         else:
-            return 0
+            return self.defaultValue
+            
 

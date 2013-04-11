@@ -31,6 +31,11 @@ class GoalProtectFlagCarrier(Goal):
             if not math.floor(distance) == 0: #pour ne pas avoir une division par 0
                 score += DistanceConstant / distance
 
-            return self.defaultValue + score
+            # nombre de bot protegeant actuellement le flag carrier
+            numberOfBot = self.numberOfBotWithSameGoal(blackboard)
+            sameGoalConstant = 2
+            sameGoalScore = sameGoalConstant * numberOfBot
+
+            return self.defaultValue + score - sameGoalScore
         else:
             return 0

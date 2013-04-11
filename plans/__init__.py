@@ -1,1 +1,1 @@
-﻿__all__ = ["Plan", "PlanPlanner", "PlanGetEnemyFlag", "PlanProtectFlagCarrier", "PlanProtectFlag"]
+﻿__all__ = ["Plan", "PlanPlanner", "PlanGetEnemyFlag", "PlanProtectFlagCarrier", "PlanProtectFlag", "PlanKillFlagCarrier"]

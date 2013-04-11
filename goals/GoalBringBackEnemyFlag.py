@@ -13,6 +13,6 @@ class GoalBringBackEnemyFlag(Goal):
     def calculateUtility(self, bot, blackboard):
         """Methode permettant de calculer l'utilité de ramener le flag"""
         if bot.flag:
-            return 1
+            return 100
         else:
             return 0
