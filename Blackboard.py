@@ -6,7 +6,7 @@ class Blackboard(object):
     ce qui l'entour afin de choisir un but et un plan éclairés.
     """
 
-    def __init__(self, hidingLocations, level, commander):
+    def __init__(self, hidingLocations, level, commander, gridHistoryModule):
         # Informations sur les cachettes (kill, death, bot a la position, position)
         self.hidingLocations = hidingLocations
 
@@ -22,3 +22,6 @@ class Blackboard(object):
 
         # commander pour pouvoir log
         self.commander = commander
+
+        # Module de grid history
+        self.GHModule = gridHistoryModule
