@@ -130,9 +130,10 @@ class ReploidCommander(Commander):
             if bot.state == bot.STATE_DEAD:
                 if self.blackboard.botsAssignGoal[bot.name] == 'ProtectFlag':
                     self.blackboard.actualDefender -= 1
+                    print str(self.blackboard.actualDefender)
 
                 # clear blackboard
-                self.blackboard.botsAssignGoal[bot] = "Unknown"
+                self.blackboard.botsAssignGoal[bot.name] = "Unknown"
 
             elif isAvailable or hasToUpdate:
                 # S'il y a eu un evenement marquant alors le bot doit updater son but meme s'il est occuper
@@ -142,6 +143,7 @@ class ReploidCommander(Commander):
 
                     if self.blackboard.botsAssignGoal.__contains__(bot.name) and self.blackboard.botsAssignGoal[bot.name] == 'ProtectFlag' and hasToUpdate:
                         self.blackboard.actualDefender -= 1
+                        print str(self.blackboard.actualDefender)
 
                     # Choix d'un but
                     goal = self.goalPlanner.findMostRevelantGoal(bot, self.blackboard)
@@ -149,6 +151,7 @@ class ReploidCommander(Commander):
 
                     if goal.goalString == 'ProtectFlag':
                         self.blackboard.actualDefender += 1
+                        print str(self.blackboard.actualDefender)
 
                     # Choix du plan
                     plan = self.planPlanner.choosePlan(bot, self.blackboard)

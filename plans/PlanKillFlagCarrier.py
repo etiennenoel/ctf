@@ -16,7 +16,7 @@ class PlanKillFlagCarrier(Plan):
 
     def setSequence(self, bot, blackboard):
         botName = self.gameInfo.team.flag.carrier
-        interceptPoint = bot.position.midPoint(self.gameInfo.enemyTeam.flagScoreLocation)
+        interceptPoint = botName.position.midPoint(self.gameInfo.enemyTeam.flagScoreLocation)
 
         if not botName is None:
             distance = bot.position.distance(self.gameInfo.team.flag.position)

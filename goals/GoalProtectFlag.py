@@ -26,7 +26,7 @@ class GoalProtectFlag(Goal):
 
         # Avoir un minimum de defenseur
         elif blackboard.actualDefender < blackboard.numberOfDefender:
-            return 100
+            return 200
         else:
             return self.defaultValue
             

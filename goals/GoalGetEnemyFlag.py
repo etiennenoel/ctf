@@ -3,7 +3,8 @@ from api import gameinfo
 
 # Score: si on gagne, l'utilite diminue
 # Temps: vers la fin de la game, si on est en train de gagne, l'utilite diminue
-# Distance entre le bot et le flag
+# !!!!!!!!!Distance entre le bot et le flag!!!!!!!!
+# TODO: LE GARS ETAIT FUCKING DEVANT LE FLAG ET IL A CHANGER DE BUT POUR ALLER TUER LE FLAG CARRIER ENNEMI
 
 class GoalGetEnemyFlag(Goal):
     """Représente le but d'aller chercher le flag ennemi"""
